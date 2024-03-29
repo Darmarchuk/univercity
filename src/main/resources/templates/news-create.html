@@ -1,0 +1,34 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Welcome World university</title>
+</head>
+<body class="d-flex flex-column">
+
+<section layout:fragment="body">
+    <!-- Nested row for non-featured blog posts-->
+    <section class="my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <h2>Publish news</h2>
+<!--                    <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>-->
+                    <form method="post" th:action="@{/createNews}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input class="lead mb-0" th:field="${news.title}" name="title" id="title">
+                            <input class="lead mb-0" th:field="${news.description}" name="description" id="description">
+                            <input class="lead mb-0" th:field="${news.content}" name ="content" id ="content" >
+                            <input  type="file" multiple name="image" accept="image/*" class="form-control-file" >
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                    <span th:if="${msg != null}" th:text="${msg}"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+</body>
+</html>

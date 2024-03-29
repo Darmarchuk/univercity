@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      author: ado
+      file: chagesets/db.upd1.sql
+      relativeToChangelogFile: true
+
+

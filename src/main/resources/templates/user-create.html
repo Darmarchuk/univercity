@@ -1,0 +1,143 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Register form</title>
+</head>
+<body>
+
+<section layout:fragment="body">
+    <!-- Nested row for non-featured blog posts-->
+    <section>
+        <div>
+            <div>
+                <div>
+                    <h2>Register</h2>
+                    <form method="post" th:action="@{/registerUser}" th:object="${user}" enctype="multipart/form-data">
+                        <div th:if="${#fields.hasAnyErrors()}">
+                            <ul>
+                                <li th:each="err : ${#fields.allErrors()}" th:text="${err}"/>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="role">Role</label>
+                                <input type="hidden" th:field="*{userType}" id="userType" name="userType">
+                                <input type="text" class="form-control" disabled="disabled"  th:text="*{userType}"  id="userTypeDisplay">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="login">Login</label>
+                                <input class="form-control" th:field="*{login}" name="login" id="login"
+                                       placeholder="user login">
+                                <p th:if="${#fields.hasErrors('login')}" class="text-danger" th:errors="*{login}"></p>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" th:field="*{password}" name="password"
+                                       id="password" placeholder="password">
+
+                            </div>
+                            <div class="form-group">
+                                <label for="dateOfBirth">Date of birth</label>
+                                <input type="date" class="form-control" th:field="*{dateOfBirth}" name="dateOfBirth"
+                                       id="dateOfBirth" placeholder="Date of birth">
+
+
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">First name</label>
+                                <input type="text" class="form-control" th:field="*{firstName}" name="firstName"
+                                       id="firstName">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last name</label>
+                                <input type="text" class="form-control" th:field="*{lastName}" name="lastName"
+                                       id="lastName">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="text" class="form-control" th:field="*{email}" name="email" id="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Site Role</label>
+                                <select class="form-select" id="role" aria-label="role" th:field="*{roles}"
+                                        multiple="multiple">
+                                    <option th:each=" role : ${T(ado.rush.university.entity.SiteRole).values()}"
+                                            th:value="${role.getName()}"
+                                            th:text="${role.getName()}"></option>
+                                    <option value="" selected="selected"></option>
+                                </select>
+                            </div>
+
+<!--                        <div style="visibility=hidden" id="studentrolediv"  class="form-group">-->
+<!--                                <label for="studentrole">Role</label>-->
+<!--                                <select class="form-select" id="studentrole" aria-label="studentrole"-->
+<!--                                        th:field="*{studentRoles}">-->
+<!--                                    <option th:each=" role : ${T(ado.rush.university.entity.SiteRole).values()}"-->
+<!--                                            th:value="${role.getName()}"-->
+<!--                                            th:text="${role.getName()}"></option>-->
+<!--                                </select>-->
+
+<!--                            </div>-->
+
+
+                            <div  th:if="${user.userType.name == 'STUDENT'}"  class="form-group">
+                                <label for="studentrole">Student Role</label>
+                                <select class="form-select" id="studentrole" aria-label="studentrole"
+                                        th:field="*{studentRoles}">
+                                    <option th:each=" role : ${T(ado.rush.university.entity.SiteRole).values()}"
+                                            th:value="${role.getName()}"
+                                            th:text="${role.getName()}"></option>
+                                </select>
+
+                            </div>
+                            <div th:if="${user.userType.name == 'TRAINER'}"  class="form-group">
+                                <label for="department">Department</label>
+                                <select class="form-select" id="department" aria-label="department" th:field="*{departments}">
+                                    <option th:each =" dept : ${user.departments}"
+                                    th:value="${dept}"
+                                    th:text = "${dept}">
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                        </div>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                    <span th:if="${msg != null}" th:text="${msg}"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+</body>
+<script src="/jquery.pwstrength.bootstrap/examples/pwstrength.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        options = {
+            common: {minChar:8},
+            ui: {
+                showVerdictsInsideProgressBar:true,
+                showErrors:true,
+                errorMessages:{
+                    wordLength: '<spring:message code="error.wordLength"/>',
+                    wordNotEmail: '<spring:message code="error.wordNotEmail"/>',
+                    wordSequences: '<spring:message code="error.wordSequences"/>',
+                    wordLowercase: '<spring:message code="error.wordLowercase"/>',
+                    wordUppercase: '<spring:message code="error.wordUppercase"/>',
+                    wordOneNumber: '<spring:message code="error.wordOneNumber"/>',
+                    wordOneSpecialChar: '<spring:message code="error.wordOneSpecialChar"/>'
+                }
+            }
+        };
+        $('#password').pwstrength(options);
+    });
+
+</script>
+
+</html>

@@ -1,0 +1,31 @@
+<html
+        xmlns:th="http://thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+<head>
+    <title>Welcome World university</title>
+</head>
+<body class="d-flex flex-column">
+
+<section layout:fragment="body">
+    <!-- Nested row for non-featured blog posts-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto" th:object="${department}">
+                    <h2>Create department</h2>
+<!--                    <p th:text="${message}" th:if="${message ne null}" class="alert alert-primary"></p>-->
+                    <form  method="post" th:action="@{/department/update/{id}(id=*{id})}" enctype="multipart/form-data" >
+                        <div class="form-group" >
+                            <input type="hidden" th:field="*{id}" name="name" id="id" >
+                            <input type="text" class="lead mb-0" th:field="*{name}" name="name" id="name">
+                            <p th:if="${#fields.hasErrors('name')}" class="text-danger" th:errors="*{name}"></p>
+                        </div>
+                        <button type="submit" class="btn btn-primary">UPDATE</button>
+                    </form>
+                    <span th:if="${msg != null}" th:text="${msg}"></span>
+                </div>
+            </div>
+        </div>
+</section>
+</body>
+</html>
